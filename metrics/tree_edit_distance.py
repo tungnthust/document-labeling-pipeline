@@ -32,8 +32,19 @@ class TableNode:
             "children": [child.to_dict() for child in self.children]
         }
     
+    def to_apted_tree(self) -> Tree:
+        """Convert TableNode to APTED Tree format"""
+        # Create tree string representation
+        if self.children:
+            children_str = "".join([child.to_apted_tree().to_string() for child in self.children])
+            tree_str = f"{{{self.tag}{children_str}}}"
+        else:
+            tree_str = f"{{{self.tag}}}"
+        
+        return Tree.from_text(tree_str)
+    
     def __repr__(self):
-        return f"<{{self.tag}}>{{self.text}}</{{self.tag}}>"
+        return f"<{self.tag}>{self.text}</{self.tag}>"
 
 
 class TableHTMLParser(HTMLParser):
@@ -84,13 +95,93 @@ def parse_html_tree(html_string: str) -> Optional[TableNode]:
 
 
 def calculate_steds(html1: str, html2: str) -> float:
-    """Calculate Simplified Tree Edit Distance Score (S-TEDS)"""
+    """
+    Calculate Simplified Tree Edit Distance Score (S-TEDS)
+    Returns normalized edit distance: 0 = identical, 1 = completely different
+    
+    Args:
+        html1: First HTML string
+        html2: Second HTML string
+        
+    Returns:
+        S-TEDS score between 0 (identical) and 1 (completely different)
+    """
+    # Parse HTML strings to tree structures
     tree1_node = parse_html_tree(html1)
     tree2_node = parse_html_tree(html2)
     
+    # Handle edge cases
     if tree1_node is None and tree2_node is None:
         return 0.0
     if tree1_node is None or tree2_node is None:
         return 1.0
     
-    return 0.0
+    try:
+        # Convert to APTED tree format
+        tree1 = tree1_node.to_apted_tree()
+        tree2 = tree2_node.to_apted_tree()
+        
+        # Calculate tree edit distance
+        apted_calculator = APTED(tree1, tree2)
+        distance = apted_calculator.compute_edit_distance()
+        
+        # Normalize by the size of the larger tree
+        size1 = count_nodes(tree1_node)
+        size2 = count_nodes(tree2_node)
+        max_size = max(size1, size2)
+        
+        if max_size == 0:
+            return 0.0
+        
+        normalized_distance = distance / max_size
+        
+        # Clamp to [0, 1]
+        return min(1.0, max(0.0, normalized_distance))
+    
+    except Exception as e:
+        # If APTED fails, fall back to simple comparison
+        # Compare normalized HTML strings
+        html1_clean = normalize_html(html1)
+        html2_clean = normalize_html(html2)
+        
+        if html1_clean == html2_clean:
+            return 0.0
+        else:
+            return 1.0
+
+
+def count_nodes(node: TableNode) -> int:
+    """Count total nodes in tree"""
+    count = 1  # Current node
+    for child in node.children:
+        count += count_nodes(child)
+    return count
+
+
+def normalize_html(html: str) -> str:
+    """Normalize HTML for comparison"""
+    if not html:
+        return ""
+    
+    # Remove extra whitespace
+    import re
+    html = re.sub(r'\s+', ' ', html)
+    html = html.strip()
+    html = html.lower()
+    
+    return html
+
+
+def are_tables_identical(html1: str, html2: str) -> bool:
+    """
+    Check if two HTML table structures are identical (S-TEDS = 0)
+    
+    Args:
+        html1: First HTML string
+        html2: Second HTML string
+        
+    Returns:
+        True if tables are identical
+    """
+    steds = calculate_steds(html1, html2)
+    return steds == 0.0
