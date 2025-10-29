@@ -31,8 +31,8 @@ MIN_CONSENSUS_COUNT = 3
 IOU_THRESHOLD = 0.3
 OVERLAP_AREA_RATIO_THRESHOLD = 0.5
 
-# Allow some text variation
-NED_THRESHOLD = 0.0
+# Allow some text variation (15% difference allowed)
+NED_THRESHOLD = 0.15
 TEXT_SIMILARITY_THRESHOLD = 0.85  # 85% similarity
 
 # Allow slight table structure differences
@@ -50,8 +50,8 @@ MIN_CONSENSUS_COUNT = 2
 IOU_THRESHOLD = 0.5
 OVERLAP_AREA_RATIO_THRESHOLD = 0.7
 
-# High text similarity but not exact
-NED_THRESHOLD = 0.0
+# High text similarity (allow 5% difference)
+NED_THRESHOLD = 0.05
 TEXT_SIMILARITY_THRESHOLD = 0.95
 
 # Exact table structure

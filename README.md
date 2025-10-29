@@ -145,7 +145,7 @@ MIN_CONSENSUS_COUNT = 2                # Minimum models in agreement
 | PP-OCRv5 | 9663 | Text Recognition | `/get-text` |
 | Paddle-OCR-VL | 9664 | Table Structure | `/get-table-structure` |
 | PP-TableMagic | 9665 | Table Structure | `/get-table-structure` |
-| DeekSeek-OCR | 9666 | Layout, Text, Table | `/get-layout`, `/get-text`, `/get-table-structure` |
+| DeepSeek-OCR | 9666 | Layout, Text, Table | `/get-layout`, `/get-text`, `/get-table-structure` |
 | dots.ocr | 9667 | Layout, Text, Table | `/get-layout`, `/get-text`, `/get-table-structure` |
 | MinerU2.5 | 9668 | Layout, Table | `/get-layout`, `/get-table-structure` |
 | Surya | 9669 | Text Recognition | `/get-text` |
@@ -201,8 +201,8 @@ MIT License
 The pipeline follows a **6-step process** for each image:
 
 ### Step 1: Full Image API Pass
-- Calls all layout analysis APIs (PP-DocLayout, DeekSeek-OCR, dots.ocr, MinerU2.5, Landing AI)
-- Calls all text extraction APIs (Google Document AI, PP-OCRv5, DeekSeek-OCR, dots.ocr, Surya, Landing AI)
+- Calls all layout analysis APIs (PP-DocLayout, DeepSeek-OCR, dots.ocr, MinerU2.5, Landing AI)
+- Calls all text extraction APIs (Google Document AI, PP-OCRv5, DeepSeek-OCR, dots.ocr, Surya, Landing AI)
 - All calls made in parallel using asyncio
 
 ### Step 2: Raw Output Storage

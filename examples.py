@@ -181,8 +181,18 @@ def example_metrics():
     print(f"  IoU: {iou:.4f} ({iou*100:.1f}% overlap)")
     
     # Table structure
-    table1 = "<table><tr><td>A</td><td>B</td></tr><tr><td>C</td><td>D</td></tr></table>"
-    table2 = "<table><tr><td>A</td><td>B</td></tr><tr><td>C</td><td>D</td></tr></table>"
+    table1 = (
+        "<table>"
+        "<tr><td>A</td><td>B</td></tr>"
+        "<tr><td>C</td><td>D</td></tr>"
+        "</table>"
+    )
+    table2 = (
+        "<table>"
+        "<tr><td>A</td><td>B</td></tr>"
+        "<tr><td>C</td><td>D</td></tr>"
+        "</table>"
+    )
     table3 = "<table><tr><td>X</td><td>Y</td></tr></table>"
     
     steds1 = calculate_steds(table1, table2)
