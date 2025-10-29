@@ -1,0 +1,52 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual environments
+venv/
+ENV/
+env/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Logs
+*.log
+pipeline.log
+
+# Output directories (keep structure but not content)
+output/raw_labels/**
+!output/raw_labels/.gitkeep
+output/unified_labels/**
+!output/unified_labels/.gitkeep
+output/consistent_labels_per_task/**
+!output/consistent_labels_per_task/.gitkeep
+
+# Test files
+.pytest_cache/
+.coverage
+
+# OS
+.DS_Store
+Thumbs.db
